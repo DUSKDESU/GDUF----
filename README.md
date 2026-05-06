@@ -27,31 +27,5 @@ GDUF第三轮后端考核说明(智能应用方向)
 - **其他**：Lombok, Hibernate Validator
 
 
-客户端 (SDK/Web)
-    ↓ HTTP请求 (Bearer Token)
-Spring Security过滤器 (JWT认证+授权)
-    ↓
-REST控制器层
-├── AuthController (认证管理)
-├── UserController (用户管理)
-├── ApiKeyController (API密钥管理)
-├── OpenAIProxyController (OpenAI API代理)
-├── ModelController (模型管理)
-├── FileController (文件管理)
-└── AdminController (管理员功能)
-    ↓
-服务层
-├── UserService (用户业务逻辑)
-├── ApiKeyService (API密钥业务逻辑)
-├── CompletionService (AI生成业务逻辑)
-├── ModelService (模型管理逻辑)
-└── FileService (文件管理逻辑)
-    ↓
-数据访问层 (Spring Data JPA)
-    ↓
-MySQL数据库
-├── users (用户表)
-├── api_keys (API密钥表)
-├── completions (AI生成记录表)
-├── models (模型配置表)
-└── files (文件表)
+<img width="4470" height="1880" alt="tongyi-mermaid-2026-05-06-214640" src="https://github.com/user-attachments/assets/b494fcd3-24c0-4f9c-96c9-14767b476ebf" />
+
