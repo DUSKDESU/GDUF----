@@ -111,6 +111,10 @@ graph LR
     Ctrl -- "生成密钥" --> Client2
     Ctrl -- "ApiKeyService.createApiKey()" --> Service
 ```
+**数据库配置**
+
+CREATE DATABASE openai CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
 
 
 
