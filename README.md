@@ -15,5 +15,15 @@ GDUF第三轮后端考核说明(智能应用方向)
 - **OpenAI API 代理**：兼容 OpenAI API 接口规范，代理聊天完成、文本完成等接口
 - **权限控制**：基于 Spring Security + JWT 的 RBAC 权限控制
 - **API 文档**：集成 SpringDoc OpenAPI 3，提供可视化接口文档
+  
+  ### 技术栈
+- **后端框架**：Spring Boot 3.2.5
+- **编程语言**：Java 17
+- **数据库**：MySQL 8.0+
+- **ORM 框架**：Spring Data JPA
+- **安全认证**：Spring Security + JWT
+- **API 文档**：SpringDoc OpenAPI (Swagger UI)
+- **构建工具**：Maven
+- **其他**：Lombok, Hibernate Validator
 
 
