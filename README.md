@@ -27,53 +27,29 @@ GDUF第三轮后端考核说明(智能应用方向)
 - **其他**：Lombok, Hibernate Validator
 
 
-┌─────────────────────────────────────────────────────────────┐
-│                        Client (SDK/Web)                      │
-└──────────────────┬──────────────────────────────────────────┘
-                   │ HTTP Request (Bearer Token)
-                   ▼
-┌─────────────────────────────────────────────────────────────┐
-│                   Spring Security Filter                     │
-│                   (JWT 认证 + 授权)                           │
-└──────────────────┬──────────────────────────────────────────┘
-                   │
-                   ▼
-┌─────────────────────────────────────────────────────────────┐
-│                    REST Controllers                          │
-│  • AuthController (认证管理)                                  │
-│  • UserController (用户管理)                                  │
-│  • ApiKeyController (API 密钥管理)                            │
-│  • OpenAIProxyController (OpenAI API 代理)                   │
-│  • ModelController (模型管理)                                 │
-│  • FileController (文件管理)                                  │
-│  • AdminController (管理员功能)                               │
-└──────────────────┬──────────────────────────────────────────┘
-                   │
-                   ▼
-┌─────────────────────────────────────────────────────────────┐
-│                     Service Layer                            │
-│  • UserService (用户业务逻辑)                                 │
-│  • ApiKeyService (API 密钥业务逻辑)                           │
-│  • CompletionService (AI 生成业务逻辑)                        │
-│  • ModelService (模型管理逻辑)                                │
-│  • FileService (文件管理逻辑)                                 │
-└──────────────────┬──────────────────────────────────────────┘
-                   │
-                   ▼
-┌─────────────────────────────────────────────────────────────┐
-│                    Repository Layer                          │
-│  (Spring Data JPA - 数据访问层)                               │
-└──────────────────┬──────────────────────────────────────────┘
-                   │
-                   ▼
-┌─────────────────────────────────────────────────────────────┐
-│                    MySQL Database                            │
-│  • users (用户表)                                            │
-│  • api_keys (API 密钥表)                                     │
-│  • completions (AI 生成记录表)                                │
-│  • models (模型配置表)                                       │
-│  • files (文件表)                                            │
-└─────────────────────────────────────────────────────────────┘
-
+graph TD
+    A[Client SDK/Web] --> B[HTTP Request Bearer Token]
+    B --> C[Spring Security Filter JWT认证+授权]
+    C --> D[REST Controllers]
+    D --> E[AuthController认证管理]
+    D --> F[UserController用户管理]
+    D --> G[ApiKeyController API密钥管理]
+    D --> H[OpenAIProxyController OpenAI API代理]
+    D --> I[ModelController模型管理]
+    D --> J[FileController文件管理]
+    D --> K[AdminController管理员功能]
+    D --> L[Service Layer]
+    L --> M[UserService用户业务逻辑]
+    L --> N[ApiKeyService API密钥业务逻辑]
+    L --> O[CompletionService AI生成业务逻辑]
+    L --> P[ModelService模型管理逻辑]
+    L --> Q[FileService文件管理逻辑]
+    L --> R[Repository Layer Spring Data JPA]
+    R --> S[MySQL Database]
+    S --> T[users用户表]
+    S --> U[api_keys API密钥表]
+    S --> V[completions AI生成记录表]
+    S --> W[models模型配置表]
+    S --> X[files文件表]
 
 
