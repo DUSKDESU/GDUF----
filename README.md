@@ -57,3 +57,25 @@ graph TD
     S --> W[models<br/>模型配置表]
     S --> X[files<br/>文件表]
 
+
+
+
+
+
+
+graph LR
+    %% 定义节点样式
+    classDef client fill:#e1f5fe,stroke:#01579b,stroke-width:2px;
+    classDef controller fill:#fff9c4,stroke:#fbc02d,stroke-width:2px;
+    classDef util fill:#e8f5e9,stroke:#2e7d32,stroke-width:2px;
+
+    %% 节点定义
+    Client1[Client]:::client
+    Auth[AuthController]:::controller
+    Client1_Out[Client]:::client
+    Jwt[JwtUtil<br/>生成 Access Token]:::util
+
+    %% 关系连接
+    Client1 -- "注册/登录" --> Auth
+    Auth -- "返回 JWT Token" --> Client1_Out
+    Auth -- "UserService.login()" --> Jwt
