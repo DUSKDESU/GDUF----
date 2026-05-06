@@ -27,5 +27,33 @@ GDUF第三轮后端考核说明(智能应用方向)
 - **其他**：Lombok, Hibernate Validator
 
 
-<img width="4470" height="1880" alt="tongyi-mermaid-2026-05-06-214640" src="https://github.com/user-attachments/assets/b494fcd3-24c0-4f9c-96c9-14767b476ebf" />
+# 项目架构
+
+## 系统架构图
+
+```mermaid
+graph TD
+    A[Client SDK/Web] --> B[HTTP Request Bearer Token]
+    B --> C[Spring Security Filter<br/>JWT认证+授权]
+    C --> D[REST Controllers]
+    D --> E[AuthController<br/>认证管理]
+    D --> F[UserController<br/>用户管理]
+    D --> G[ApiKeyController<br/>API密钥管理]
+    D --> H[OpenAIProxyController<br/>OpenAI API代理]
+    D --> I[ModelController<br/>模型管理]
+    D --> J[FileController<br/>文件管理]
+    D --> K[AdminController<br/>管理员功能]
+    D --> L[Service Layer]
+    L --> M[UserService<br/>用户业务逻辑]
+    L --> N[ApiKeyService<br/>API密钥业务逻辑]
+    L --> O[CompletionService<br/>AI生成业务逻辑]
+    L --> P[ModelService<br/>模型管理逻辑]
+    L --> Q[FileService<br/>文件管理逻辑]
+    Q --> R[Repository Layer<br/>Spring Data JPA]
+    R --> S[MySQL Database]
+    S --> T[users<br/>用户表]
+    S --> U[api_keys<br/>API密钥表]
+    S --> V[completions<br/>AI生成记录表]
+    S --> W[models<br/>模型配置表]
+    S --> X[files<br/>文件表]
 
