@@ -1,10 +1,8 @@
-# GDUF----
-GDUF第三轮后端考核说明(智能应用方向)
-# OpenAI API 代理平台
+## GDUF第三轮后端考核说明(智能应用方向)
 
 ## 项目说明
 
-本项目是一个企业级 OpenAI API 代理平台，基于 Spring Boot 3.x 构建，提供完整的用户认证、API Key 管理、配额限制、异步请求处理等核心功能。平台支持多用户并发访问、限流控制、使用量统计，并集成了 Swagger/OpenAPI 3 文档。
+本项目是GDUF第三轮考核项目，相比于第二轮考核，
 
 ### 核心功能
 
@@ -57,25 +55,62 @@ graph TD
     S --> W[models<br/>模型配置表]
     S --> X[files<br/>文件表]
 
+```
+## 鉴权与生成流程说明
+- **JWT 认证流程**
 
-
-
-
-
-
+```mermaid
 graph LR
-    %% 定义节点样式
-    classDef client fill:#e1f5fe,stroke:#01579b,stroke-width:2px;
-    classDef controller fill:#fff9c4,stroke:#fbc02d,stroke-width:2px;
-    classDef util fill:#e8f5e9,stroke:#2e7d32,stroke-width:2px;
+    %% --- 流程部分 ---
+    %% 定义节点
+    C1[Client]
+    AC[AuthController]
+    C1_Out[Client]
+    JU[JwtUtil<br/>生成 Access Token]
 
-    %% 节点定义
-    Client1[Client]:::client
-    Auth[AuthController]:::controller
-    Client1_Out[Client]:::client
-    Jwt[JwtUtil<br/>生成 Access Token]:::util
+    %% 定义连线
+    C1 -- "注册/登录" --> AC
+    AC -- "返回 JWT Token" --> C1_Out
+    AC -- "UserService.login()" --> JU
 
-    %% 关系连接
-    Client1 -- "注册/登录" --> Auth
-    Auth -- "返回 JWT Token" --> Client1_Out
-    Auth -- "UserService.login()" --> Jwt
+```
+- **AI 生成请求流程**
+  
+```mermaid
+
+graph TD
+    Client3[Client] -->|提交生成请求| Proxy[OpenAIProxyCtrl]
+    
+    subgraph Validation [验证阶段]
+        direction TB
+        Proxy -->|1.验证 API Key| KeySvc[ApiKeyService]
+        KeySvc --> Res[验证结果]
+    end
+
+    subgraph Execution [执行阶段]
+        direction TB
+        Res -.-> Comp[CompletionService<br/>检查配额限制]
+        Comp -->|3.调用 OpenAI API| Rest[RestTemplate<br/>异步调用]
+        Rest --> OpenAI[OpenAI API]
+    end
+    
+    Rest -->|4.返回结果| Client3
+
+```
+- **API Key 生成流程**
+```mermaid
+graph LR
+    %% 定义节点
+    Client1[Client]
+    Ctrl[ApiKeyController]
+    Client2[Client]
+    Service[生成 sk-xxx 格式密钥<br/>保存到数据库]
+
+    %% 定义连线
+    Client1 -- "创建 API Key" --> Ctrl
+    Ctrl -- "生成密钥" --> Client2
+    Ctrl -- "ApiKeyService.createApiKey()" --> Service
+```
+
+
+
