@@ -360,20 +360,20 @@ Spring Data JPA 数据库映射\
 @Enumerated(EnumType.STRING)：将枚举类型以字符串形式存储到数据库。\
 
 
-#### Docker 部署
+### Docker 部署
 ## 环境要求、
 
-# 1. 克隆项目
-git clone <https://github.com/DUSKDESU/GDUF_level_3.git>
+ 1. 克隆项目\
+git clone <https://github.com/DUSKDESU/GDUF_level_3.git> 
 cd openai
 
-# 2. 一键启动
+ 2. 一键启动\
 docker compose up -d --build
 
-# 3. 查看启动日志
+ 3. 查看启动日志\
 docker compose logs -f app
 
-# 服务访问
+ 服务访问\
 应用接口：http://localhost:8081
 API 文档：http://localhost:8081/swagger-ui.html
 健康检查：http://localhost:8081/actuator/health
