@@ -1,0 +1,68 @@
+version: '3.8'
+
+services:
+  # MySQL 数据库
+  mysql:
+    image: mysql:8.0
+    container_name: openai-mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD:-1234}
+      MYSQL_DATABASE: openai
+      TZ: Asia/Shanghai
+    ports:
+      - "3307:3306"
+    volumes:
+      - mysql-data:/var/lib/mysql
+      - ./init-db.sql:/docker-entrypoint-initdb.d/init.sql (可选)
+    networks:
+      - openai-network
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Spring Boot 应用
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: openai-app
+    restart: always
+    environment:
+      # 数据库配置
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/openai?useSSL=false&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true&characterEncoding=utf8
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: ${DB_PASSWORD:-1234}
+      # JWT 配置
+      APP_JWT_SECRET: ${JWT_SECRET:-mySecretKeyForRecruitAppThatIsLongEnoughAndMeetsHS512Requirements!@#$%^&*()}
+      APP_JWT_EXPIRATION: 86400000
+      APP_JWT_REFRESH_EXPIRATION: 604800000
+      # OpenAI API 配置
+      OPENAI_API_URL: ${OPENAI_API_URL:-https://ai.abin.uno/v1/chat/completions}
+      OPENAI_API_KEY: ${OPENAI_API_KEY:-sk-a676b8ebfc9d6b594ba3731b375cd3b7182b172434981e5768b23d7868dc6ec4}
+      # 文件上传配置
+      FILE_UPLOAD_DIR: /app/uploads
+      # 日志配置
+      LOGGING_LEVEL_TEST_OPENAI: DEBUG
+      LOGGING_LEVEL_ORG_SPRINGFRAMEWORK_SECURITY: DEBUG
+    ports:
+      - "8081:8081"
+    volumes:
+      - app-uploads:/app/uploads
+    depends_on:
+      mysql:
+        condition: service_healthy
+    networks:
+      - openai-network
+
+volumes:
+  mysql-data:
+    driver: local
+  app-uploads:
+    driver: local
+
+networks:
+  openai-network:
+    driver: bridge
