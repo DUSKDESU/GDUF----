@@ -3,13 +3,35 @@
 ## 项目说明
 
 本项目是GDUF爪哇部后端第三轮考核项目
-实现以下功能
-- **用户管理**：支持用户注册、登录和权限控制
-- **API Key 管理**：多租户 API 密钥管理和使用统计
-- **模型管理**：支持多种 AI 模型的配置和路由
-- **文件服务**：文件上传、存储和管理功能
-- **OpenAI 代理**：透明的 OpenAI API 代理转发服务
 
+## 技术栈概述
+
+本项目采用现代化的 Java Web 技术栈构建，主要包含以下技术组件：
+
+### 后端技术
+- **核心框架**：Spring Boot 3.x + Java 17
+- **Web 框架**：Spring MVC，提供 RESTful API 接口
+- **安全框架**：Spring Security + JWT，实现用户认证和权限控制
+- **ORM 框架**：Spring Data JPA + Hibernate，简化数据库操作
+- **数据库**：MySQL，提供持久化存储
+- **HTTP 客户端**：RestTemplate，用于 OpenAI API 代理转发
+
+### 构建与部署
+- **构建工具**：Maven，负责项目依赖管理和构建
+- **容器化**：Docker + Docker Compose，支持一键部署
+
+### 开发工具
+- **IDE**：IntelliJ IDEA 2025.3.2
+- **JDK**：Microsoft JDK 17.0.18
+
+
+### 技术特点
+- 采用分层架构设计（Controller → Service → Repository）
+- 支持 CORS 跨域访问
+- 实现 JWT 无状态认证机制
+- 支持文件上传存储功能
+- 提供 OpenAI API 透明代理能力
+  
 
 ### 核心功能
 
@@ -20,16 +42,6 @@
 - **OpenAI API 代理**：兼容 OpenAI API 接口规范，代理聊天完成、文本完成等接口
 - **权限控制**：基于 Spring Security + JWT 的 RBAC 权限控制
 - **API 文档**：集成 SpringDoc OpenAPI 3，提供可视化接口文档
-  
-  ### 技术栈
-- **后端框架**：Spring Boot 3.2.5
-- **编程语言**：Java 17
-- **数据库**：MySQL 8.0+
-- **ORM 框架**：Spring Data JPA
-- **安全认证**：Spring Security + JWT
-- **API 文档**：SpringDoc OpenAPI (Swagger UI)
-- **构建工具**：Maven
-- **其他**：Lombok, Hibernate Validator
 
 
 # 项目架构
