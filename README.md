@@ -305,3 +305,49 @@ curl -X DELETE http://localhost:8081/api/api-keys/1
 数据/测试：部分测试数据（如 JSON 模拟数据、用户测试用例）由 AI 生成。\
 代码bug修复：由ai查找并提供修改方案，经人工审查采用最优解。
 
+## 用的一些注解的说明
+
+1. Spring Boot 启动与配置
+| 注解 | 典型使用位置 | 核心作用 |
+| :--- | :--- | :--- |
+| `@SpringBootApplication` | `OpenaiApplication.java` | 主启动类：开启自动配置与组件扫描 |
+| `@Configuration` | `CorsConfig`, `SecurityConfig` | 配置类：标记为 Spring 配置类，用于定义 Bean |
+| `@Bean` | 各类 Config 文件 | Bean 定义：将方法返回值注册为 Spring 容器管理的对象 |
+
+2. Spring Security 安全控制
+| 注解 | 典型使用位置 | 核心作用 |
+| :--- | :--- | :--- |
+| `@EnableWebSecurity` | `SecurityConfig.java` | 启用 Spring Security 的 Web 安全功能 |
+| `@EnableMethodSecurity` | `SecurityConfig.java` | 启用方法级安全控制（如配合 `@PreAuthorize` 使用） |
+| `@Component` | `JwtUtil`, `CustomUserDetailsService` | 通用组件：标记为 Spring 组件，自动注册到 IOC 容器 |
+
+3. Spring Web MVC 控制器
+| 注解 | 使用场景 | 作用说明 |
+| :--- | :--- | :--- |
+| `@Autowired` | Service / Controller | 自动装配：按类型自动注入依赖对象 |
+| `@Value` | Config / Controller | 属性注入：读取 `application.yml` 中的配置值 |
+| `@RequestBody` | 方法参数 | 将 JSON 请求体反序列化为 Java 对象 |
+| `@PathVariable` | 方法参数 | 提取 URL 路径中的变量（如 `/users/{id}`） |
+| `@RequestParam` | 方法参数 | 提取 URL 查询参数（如 `?page=1`） |
+| `@RequestHeader` | 方法参数 | 提取 HTTP 请求头信息 |
+| `@Valid` | 方法参数 | 触发 JSR-303 数据校验（配合 DTO 使用） |
+
+5. Spring Data JPA 数据库映射\
+实体与主键\
+@Entity / @Table(name="...")：标记 JPA 实体类并指定表名。\
+@Id / @GeneratedValue(strategy=IDENTITY)：标识主键并使用数据库自增策略。\
+字段与关系\
+@Column：定义列属性（名称、长度、是否唯一等）。\
+@ManyToOne(fetch=LAZY)：定义多对一关联，采用懒加载策略。\
+@JoinColumn：指定关联表的外键列名。\
+时间与枚举\
+@CreationTimestamp / @UpdateTimestamp：自动记录数据的创建与更新时间。\
+@Enumerated(EnumType.STRING)：将枚举类型以字符串形式存储到数据库。\
+
+
+   
+
+
+
+
+
