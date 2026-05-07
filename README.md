@@ -131,10 +131,176 @@ openai.api.key=your_openai_api_key
 ### 1. 用户注册和登录
 
 #### 注册用户
-bash curl -X POST http://localhost:8081/api/auth/register -H "Content-Type: application/json" -d '{ "username": "testuser", "email": "test@example.com", "password": "password123" }'
-**响应示例**：{ "success": true, "message": "注册成功", "data": { "token": "eyJhbGciOiJIUzUxMiJ9...", "refreshToken": "eyJhbGciOiJIUzUxMiJ9...", "tokenType": "Bearer", "expiresIn": 86400000 } }
+
+```bash
+curl -X POST http://localhost:8081/api/auth/register \
+  -H "Content-Type: application/json" \
+  -d '{
+    "username": "testuser",
+    "email": "test@example.com",
+    "password": "password123"
+  }'
 
 
+```
+**响应示例**：
+```json
+
+{
+  "success": true,
+  "message": "注册成功",
+  "data": {
+    "token": "eyJhbGciOiJIUzUxMiJ9...",
+    "refreshToken": "eyJhbGciOiJIUzUxMiJ9...",
+    "tokenType": "Bearer",
+    "expiresIn": 86400000
+  }
+}
+
+```
+#### 用户登录
+```bash
+bash curl -X POST http://localhost:8081/api/auth/login
+-H "Content-Type: application/json"
+-d '{ "identifier":
+"testuser",
+"password":
+"password123"
+}'
+
+```
+**响应示例**：
+```json
+{ "success": true, 
+"message": "注册成功", 
+"data": 
+{ "token": "eyJhbGciOiJIUzUxMiJ9...", 
+"refreshToken": "eyJhbGciOiJIUzUxMiJ9...", 
+"tokenType": "Bearer",
+"expiresIn": 86400000 
+} 
+}
+
+```
 
 
+### 2. API Key 管理
+
+#### 创建 API Key
+```bash
+curl -X POST http://localhost:8081/api/api-keys
+-H "Content-Type: application/json"
+-H "Authorization: Bearer YOUR_JWT_TOKEN"
+-d '{ "name":
+"测试密钥",
+"rateLimit": 100,
+ "dailyLimit": 1000,
+ "expiresAt": "2025-12-31T23:59:59"
+}'
+```
+**响应示例**：
+
+```json
+{ "success":
+ true, "message":
+ "操作成功",
+"data":
+{ "id": 1,
+"apiKey":
+ "sk-a1b2c3d4e5f6...",
+ "maskedApiKey": "sk-***...f6g7",
+"name": "测试密钥",
+"isActive": true,
+ "rateLimit": 100,
+ "dailyLimit": 1000,
+ "usedCount": 0,
+"createdAt": "2025-05-06T10:30:00"
+ }
+}
+```
+
+#### 查看用户的所有 API Key
+```bash
+curl -X GET http://localhost:8081/api/api-keys 
+-H "Authorization: Bearer YOUR_JWT_TOKEN"
+```
+#### 更新 API Key
+```
+bash curl -X PUT http://localhost:8081/api/api-keys/1
+-H "Content-Type: application/json"
+-H "Authorization: Bearer YOUR_JWT_TOKEN"
+-d '{ "name": "更新后的密钥名称",
+ "dailyLimit": 2000
+}'
+
+```
+
+#### 禁用/启用 API Key
+
+```bash
+禁用
+curl -X PATCH http://localhost:8081/api/api-keys/1/disable
+-H "Authorization: Bearer YOUR_JWT_TOKEN"
+启用
+curl -X PATCH http://localhost:8081/api/api-keys/1/enable
+-H "Authorization: Bearer YOUR_JWT_TOKEN"
+```
+#### 删除 API Key
+```bash
+curl -X DELETE http://localhost:8081/api/api-keys/1
+-H "Authorization: Bearer YOUR_JWT_TOKEN"
+
+```
+
+### 3. OpenAI API 代理测试
+
+#### 聊天完成（Chat Completions）
+
+```bash curl -X POST http://localhost:8081/v1/chat/completions
+-H "Content-Type: application/json"
+-H "Authorization: Bearer YOUR_API_KEY"
+-d '{ "model": "gpt-3.5-turbo",
+"messages": [ { "role": "system",
+"content": "你是一个 helpful assistant."},
+{"role": "user", "content": "请介绍一下 Java 17 的新特性"} ],
+ "temperature": 0.7, "max_tokens": 1000
+}'
+
+```
+**响应示例**：
+```json
+ { "success": true,
+ "message": "操作成功",
+ "data": { "id": "chatcmpl-abc123",
+ "object": "chat.completion",
+ "created": 1680000000,
+"model": "gpt-3.5-turbo",
+ "choices": [ { "index": 0, "message": { "role": "assistant",
+ "content": "Java 17 引入了以下新特性：\n1. 密封类（Sealed Classes）\n2. 模式匹配增强\n3. 新的 GC 算法\n..." },
+"finish_reason": "stop" } ],
+"usage": { "prompt_tokens": 50,
+ "completion_tokens": 200,
+ "total_tokens": 250
+}
+}
+}
+
+```
+
+#### 获取模型列表
+```bash curl -X GET http://localhost:8081/v1/models
+-H "Authorization: Bearer YOUR_API_KEY"
+```
+#### 查询生成历史
+```bash curl -X GET http://localhost:8081/v1/chat/completions/COMPLETION_ID
+-H "Authorization: Bearer YOUR_API_KEY"
+```
+
+## AIGC 使用说明
+
+本项目在开发过程中引入了人工智能生成内容技术，用于辅助代码编写、文档生成及资源制作。
+使用范围
+代码辅助：部分通用逻辑代码（如工具类函数、正则表达式、数据库连接配置）由 AI 生成，并经人工审查与测试。
+文档编写：部分说明文档（如 README 结构、代码注释、API 文档模板）参考了 AI 生成的文本。
+数据/测试：部分测试数据（如 JSON 模拟数据、用户测试用例）由 AI 生成。
 
