@@ -2,7 +2,7 @@
 
 ## 项目说明
 
-本项目是GDUF第三轮考核项目，相比于第二轮考核，
+本项目是GDUF第三轮考核项目                                            
 
 ### 核心功能
 
@@ -353,6 +353,24 @@ Spring Data JPA 数据库映射\
 @Enumerated(EnumType.STRING)：将枚举类型以字符串形式存储到数据库。\
 
 
+#### Docker 部署
+## 环境要求、
+
+# 1. 克隆项目
+git clone <你的仓库地址>
+cd openai
+
+# 2. 一键启动
+docker compose up -d --build
+
+# 3. 查看启动日志
+docker compose logs -f app
+
+# 服务访问
+应用接口：http://localhost:8081
+API 文档：http://localhost:8081/swagger-ui.html
+健康检查：http://localhost:8081/actuator/health
+MySQL 数据库：localhost:3307（root/默认密码1234）
    
 
 
