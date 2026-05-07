@@ -307,22 +307,30 @@ curl -X DELETE http://localhost:8081/api/api-keys/1
 
 ## 用的一些注解的说明
 
-1. Spring Boot 启动与配置
-| 注解 | 典型使用位置 | 核心作用 |
+
+| 注解 | Spring Boot 启动与配置 | 核心作用 |
 | :--- | :--- | :--- |
 | `@SpringBootApplication` | `OpenaiApplication.java` | 主启动类：开启自动配置与组件扫描 |
 | `@Configuration` | `CorsConfig`, `SecurityConfig` | 配置类：标记为 Spring 配置类，用于定义 Bean |
 | `@Bean` | 各类 Config 文件 | Bean 定义：将方法返回值注册为 Spring 容器管理的对象 |
 
-2. Spring Security 安全控制
-| 注解 | 典型使用位置 | 核心作用 |
+
+| 注解 | Spring Security 安全控制 | 核心作用 |
 | :--- | :--- | :--- |
 | `@EnableWebSecurity` | `SecurityConfig.java` | 启用 Spring Security 的 Web 安全功能 |
 | `@EnableMethodSecurity` | `SecurityConfig.java` | 启用方法级安全控制（如配合 `@PreAuthorize` 使用） |
 | `@Component` | `JwtUtil`, `CustomUserDetailsService` | 通用组件：标记为 Spring 组件，自动注册到 IOC 容器 |
 
-3. Spring Web MVC 控制器
-| 注解 | 使用场景 | 作用说明 |
+| 注解 | Spring Web MVC 控制器 | 作用说明 |
+| :--- | :--- | :--- |
+| `@RestController` | 所有 Controller 类 | RESTful 风格控制器，自动将返回值序列化为 JSON |
+| `@RequestMapping` | Controller 类级别 | 定义 URL 路径的公共前缀 |
+| `@GetMapping` / `@PostMapping` | 具体方法 | 映射 GET / POST 请求 |
+| `@PutMapping` / `@PatchMapping` | 具体方法 | 映射 PUT (完整更新) / PATCH (部分更新) 请求 |
+| `@DeleteMapping` | 具体方法 | 映射 DELETE 删除请求 |
+
+
+| 注解 | 依赖注入与参数绑定 | 作用说明 |
 | :--- | :--- | :--- |
 | `@Autowired` | Service / Controller | 自动装配：按类型自动注入依赖对象 |
 | `@Value` | Config / Controller | 属性注入：读取 `application.yml` 中的配置值 |
@@ -332,7 +340,7 @@ curl -X DELETE http://localhost:8081/api/api-keys/1
 | `@RequestHeader` | 方法参数 | 提取 HTTP 请求头信息 |
 | `@Valid` | 方法参数 | 触发 JSR-303 数据校验（配合 DTO 使用） |
 
-5. Spring Data JPA 数据库映射\
+Spring Data JPA 数据库映射\
 实体与主键\
 @Entity / @Table(name="...")：标记 JPA 实体类并指定表名。\
 @Id / @GeneratedValue(strategy=IDENTITY)：标识主键并使用数据库自增策略。\
