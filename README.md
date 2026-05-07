@@ -114,6 +114,26 @@ graph LR
 **数据库配置**
 
 CREATE DATABASE openai CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+详细建表语句见  openai.text
+
+修改 `src/main/resources/application.properties` 中的数据库配置：
+
+properties spring.datasource.url=jdbc:mysql://localhost:3306/openai?useSSL=false&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true&characterEncoding=utf8 spring.datasource.username=your_username spring.datasource.password=your_password
+
+修改 OpenAI API 配置：
+properties openai.api.url=your_openai_api_url 
+openai.api.key=your_openai_api_key
+
+
+
+## SDK 测试说明
+
+### 1. 用户注册和登录
+
+#### 注册用户
+bash curl -X POST http://localhost:8081/api/auth/register -H "Content-Type: application/json" -d '{ "username": "testuser", "email": "test@example.com", "password": "password123" }'
+**响应示例**：{ "success": true, "message": "注册成功", "data": { "token": "eyJhbGciOiJIUzUxMiJ9...", "refreshToken": "eyJhbGciOiJIUzUxMiJ9...", "tokenType": "Bearer", "expiresIn": 86400000 } }
+
 
 
 
