@@ -2,7 +2,14 @@
 
 ## 项目说明
 
-本项目是GDUF第三轮考核项目                                            
+本项目是GDUF爪哇部后端第三轮考核项目
+实现以下功能
+- **用户管理**：支持用户注册、登录和权限控制
+- **API Key 管理**：多租户 API 密钥管理和使用统计
+- **模型管理**：支持多种 AI 模型的配置和路由
+- **文件服务**：文件上传、存储和管理功能
+- **OpenAI 代理**：透明的 OpenAI API 代理转发服务
+
 
 ### 核心功能
 
@@ -357,7 +364,7 @@ Spring Data JPA 数据库映射\
 ## 环境要求、
 
 # 1. 克隆项目
-git clone <你的仓库地址>
+git clone <https://github.com/DUSKDESU/GDUF_level_3.git>
 cd openai
 
 # 2. 一键启动
